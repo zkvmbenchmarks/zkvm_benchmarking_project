@@ -1,0 +1,6 @@
+[submodule "risc0_benchmarks"]
+	path = risc0_benchmarks
+	url = git@github.com:zkvmbenchmarks/risc0_benchmarks.git
+[submodule "sp1_benchmarks"]
+	path = sp1_benchmarks
+	url = git@github.com:zkvmbenchmarks/sp1_benchmarks.git
