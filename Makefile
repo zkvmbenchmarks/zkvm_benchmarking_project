@@ -13,8 +13,8 @@ risc0:
     fi
 	@echo "Running RISC Zero benchmarks for: TEST_NAME"
 	@mkdir -p $(RESULTS_DIR)
-#	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
-#	@cd $(RISC0_DIR)/test_project/host && cargo build --release
+	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
+	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_valgrind.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_test_project_results.txt
