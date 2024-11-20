@@ -7,16 +7,18 @@ RESULTS_DIR := $(ROOT_DIR)/results
 # Target for RISC Zero project
 .PHONY: risc0
 risc0:
-	@if [ -z "$(PROJECT)" ]; then \
-	    echo "Error: Please specify a PROJECT variable. Example: make risc0 PROJECT=test_project"; \
-	    exit 1; \
-	fi
-	@echo "Running RISC Zero benchmarks for project: $(PROJECT)"
+	@if [ -z "$(TEST_NAME)" ]; then \
+        echo "Error: Please specify a TEST_NAME variable. Example: make risc0 PROJECT=test_project TEST_NAME=test_name"; \
+        exit 1; \
+    fi
+	@echo "Running RISC Zero benchmarks for: TEST_NAME"
 	@mkdir -p $(RESULTS_DIR)
-	@cd $(RISC0_DIR)/$(PROJECT)/methods && cargo build --release 
-	@cd $(RISC0_DIR)/$(PROJECT)/host && cargo build --release
-	@cd $(RISC0_DIR)/$(PROJECT)/host && cargo run --release > $(RESULTS_DIR)/risc0_$(PROJECT)_results.txt
-	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_$(PROJECT)_results.txt"
+	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
+	@cd $(RISC0_DIR)/test_project/host && cargo build --release
+	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
+        --log-file=$(RESULTS_DIR)/risc0_valgrind.log \
+        ../target/release/host > $(RESULTS_DIR)/risc0_test_project_results.txt
+	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
 
 # Target for SP1 benchmarks
 .PHONY: sp1
