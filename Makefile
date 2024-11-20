@@ -15,7 +15,7 @@ risc0:
 	@mkdir -p $(RESULTS_DIR)
 	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
-	@cd $(RISC0_DIR)/test_project/host && cargo run --release > $(RESULTS_DIR)/risc0_test_project_results.txt
+	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info cargo run --release > $(RESULTS_DIR)/risc0_test_project_results.txt
 	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
 
 # Target for SP1 benchmarks
