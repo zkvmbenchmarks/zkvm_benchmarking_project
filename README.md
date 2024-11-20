@@ -16,7 +16,7 @@ make risc0 TEST_NAME=<test_name>
 
 #### Example:
 
-make risc0 TEST_NAME=fibonacci10
+make risc0 TEST_NAME=vecSum10
 
 #### Results are saved in:
 
