@@ -28,7 +28,7 @@ risc0: cleanup
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_memory_leak.log \
-        ../target/release/host > $(RESULTS_DIR)/risc0_benchmark_results.log
+        ../target/release/host > $(RESULTS_DIR)/risc0_rust_bench.log
 	@$(MAKE) cleanup
 	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
 
