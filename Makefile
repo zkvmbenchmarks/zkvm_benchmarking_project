@@ -13,11 +13,14 @@ risc0:
     fi
 	@echo "Running RISC Zero benchmarks for: TEST_NAME"
 	@mkdir -p $(RESULTS_DIR)
+	@top -b -d 1 > $(RESULTS_DIR)/cpu_usage.log & echo $$! > $(RESULTS_DIR)/.top.pid
 	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_valgrind.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_test_project_results.txt
+	@kill `cat $(RESULTS_DIR)/.top.pid` || true
+	@rm -f $(RESULTS_DIR)/.top.pid
 	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
 
 # Target for SP1 benchmarks
@@ -32,4 +35,3 @@ sp1:
 .PHONY: all
 all: risc0 sp1
 	@echo "All benchmarks completed!"
-
