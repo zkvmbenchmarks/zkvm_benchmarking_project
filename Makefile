@@ -4,23 +4,28 @@ RISC0_DIR := $(ROOT_DIR)/risc0_benchmarks
 SP1_DIR := $(ROOT_DIR)/sp1_benchmarks
 RESULTS_DIR := $(ROOT_DIR)/results
 
+# Helper target to cleanup background processes
+.PHONY: cleanup
+cleanup:
+	@-kill `cat $(RESULTS_DIR)/.top.pid` 2>/dev/null || true
+	@rm -f $(RESULTS_DIR)/.top.pid
+
 # Target for RISC Zero project
 .PHONY: risc0
-risc0:
+risc0: cleanup
 	@if [ -z "$(TEST_NAME)" ]; then \
         echo "Error: Please specify a TEST_NAME variable. Example: make risc0 PROJECT=test_project TEST_NAME=test_name"; \
         exit 1; \
     fi
-	@echo "Running RISC Zero benchmarks for: TEST_NAME"
+	@echo "Running RISC Zero benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
 	@top -b -d 1 > $(RESULTS_DIR)/cpu_usage.log & echo $$! > $(RESULTS_DIR)/.top.pid
-	@cd $(RISC0_DIR)/test_project/methods && cargo build --release 
+	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_valgrind.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_test_project_results.txt
-	@kill `cat $(RESULTS_DIR)/.top.pid` || true
-	@rm -f $(RESULTS_DIR)/.top.pid
+	@$(MAKE) cleanup
 	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
 
 # Target for SP1 benchmarks
