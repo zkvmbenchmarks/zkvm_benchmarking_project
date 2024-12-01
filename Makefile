@@ -42,7 +42,8 @@ risc0: cleanup
 sp1:
 	@echo "Running SP1 benchmarks..."
 	@mkdir -p $(RESULTS_DIR)
-	@bash $(SP1_DIR)/run_benchmark.sh > $(RESULTS_DIR)/sp1_results.txt
+	@cd $(SP1_DIR)/sp1_project/program && cargo prove build
+	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info cargo run --release -- --prove > $(RESULTS_DIR)/sp1_results.txt
 	@echo "SP1 benchmarks completed! Results saved to $(RESULTS_DIR)/sp1_results.txt"
 
 # Run all benchmarks
