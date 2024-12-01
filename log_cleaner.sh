@@ -32,15 +32,18 @@ if [ -z "$input_file_rust_bench" ] || [ -z "$input_file_memory_leak" ] ||
 fi
 
 # Check if input files exist
-for file in "$input_file_rust_bench" "$input_file_memory_leak" "$input_file_risc0_cpu"; do
-    if [ ! -f "$file" ]; then
-        echo "Error: File $file does not exist"
-        exit 1
-    fi
-done
+#for file in "$input_file_rust_bench" "$input_file_memory_leak" "$input_file_risc0_cpu"; do
+#    if [ ! -f "$file" ]; then
+#        echo "Error: File $file does not exist"
+#        exit 1
+#    fi
+#done
 
-# Extract total cycles
-total_cycles=$(grep "total cycles:" "$input_file_rust_bench" | awk '{print $NF}')
+# Extract total cycles - handles both "total cycles:" and "cycles=" formats
+total_cycles=$(egrep "total cycles:| cycles=" "$input_file_rust_bench" | 
+    sed -E 's/.*((total cycles:| cycles=)\s*)([0-9]+).*/\3/' |
+    sed 's/^[[:space:]]*//g' |
+    head -n 1)
 
 # Extract Proving time
 proving_time=$(grep "^Proving time:" "$input_file_rust_bench" | awk '{print $3}')
