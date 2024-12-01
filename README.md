@@ -20,8 +20,7 @@ make risc0 TEST_NAME=vecSum10
 
 #### Results are saved in:
 
-TODO: is this what we want to save?
-results/risc0_test_project_results.txt
+results/risc0_[TEST_NAME]_benchmark_results.txt
 
 ### Run SP1 Benchmarks
 
