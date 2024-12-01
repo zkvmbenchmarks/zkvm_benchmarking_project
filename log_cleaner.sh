@@ -3,6 +3,7 @@
 # Input and output files
 input_file_rust_bench="results/risc0_rust_bench.log"
 input_file_memory_leak="results/risc0_memory_leak.log"
+input_file_risc0_cpu="results/risc0_cpu_usage.log"
 output_file="results/risc0_benchmark_results"
 
 # Extract total cycles
@@ -31,6 +32,20 @@ possibly_lost=$(grep "possibly lost:" "$input_file_memory_leak" | awk '{gsub(","
 # Sum up memory leaks in bytes
 total_memory_leak=$(((definitely_lost + indirectly_lost + possibly_lost) / 1024))
 
+# Extract and clean CPU percentage (remove % and convert to integer)
+avg_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" | 
+    awk '{for(i=1;i<=NF;i++) if($i ~ /us/) print $(i-1)}' | 
+    awk '{sum += $1} END {print int(sum/NR)}')
+
+# Estimate the total power consumption during proving and verification by multiplying the average CPU usage with the time spent without using bc command
+proving_time_clean=$(echo "$proving_time" | sed 's/s$//' | awk '{print int($1)}')
+total_power_consumption=$((proving_time_clean * avg_cpu_usage))
+
+# Extract total sum of CPU usage (without averaging)
+total_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" | 
+    awk '{for(i=1;i<=NF;i++) if($i ~ /us/) print $(i-1)}' | 
+    awk '{sum += $1} END {print int(sum)}')
+
 # Write to output file
 {
     echo "Total cycles: $total_cycles"
@@ -40,4 +55,5 @@ total_memory_leak=$(((definitely_lost + indirectly_lost + possibly_lost) / 1024)
     echo "Verification time: $verification_time"
     echo "Peak memory consumption during verification: $peak_memory_verification"
     echo "Total memory leak: $total_memory_leak KB"
+    echo "Total power consumption: $total_cpu_usage%" >> "$output_file"
 } > "$output_file"

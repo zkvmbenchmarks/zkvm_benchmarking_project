@@ -19,13 +19,13 @@ risc0: cleanup
     fi
 	@echo "Running RISC Zero benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
+#	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
+#	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@top -b -d 1 -n 0 | head -n 5 > $(RESULTS_DIR)/risc0_cpu_usage.log & echo $$! > $(RESULTS_DIR)/.top.pid
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/risc0_cpu_usage.log; \
         sleep 1; \
     done & echo $$! >> $(RESULTS_DIR)/.top.pid
-	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
-	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_memory_leak.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_rust_bench.log
