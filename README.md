@@ -26,11 +26,11 @@ results/risc0_[TEST_NAME]_benchmark_results.txt
 
 Run the SP1 benchmarks:
 
-make sp1
+make sp1 TEST_NAME=<test_name>
 
 Results are saved in:
 
-results/sp1_results.txt
+results/sp1_[TEST_NAME]_benchmark_results.txt
 
 ### Run All Benchmarks
 

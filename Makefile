@@ -68,7 +68,7 @@ sp1: cleanup
 #	doesn't release cycle count info when I directly call executable
 #	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info target/release/fibonacci --prove
 #	runs forever when I call valgrind
-#	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info valgrind --verbose --leak-check=full \
+#	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/sp1_memory_leak.log \
         target/release/fibonacci --prove > $(RESULTS_DIR)/sp1_rust_bench.log
 	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/sp1_rust_bench.log -m $(RESULTS_DIR)/sp1_memory_leak.log -c \
