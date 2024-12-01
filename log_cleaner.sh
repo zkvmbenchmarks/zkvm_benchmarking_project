@@ -1,10 +1,43 @@
 #!/bin/bash
 
-# Input and output files
-input_file_rust_bench="results/risc0_rust_bench.log"
-input_file_memory_leak="results/risc0_memory_leak.log"
-input_file_risc0_cpu="results/risc0_cpu_usage.log"
-output_file="results/risc0_benchmark_results"
+# Help function
+print_usage() {
+    echo "Usage: $0 -r RUST_BENCH_LOG -m MEMORY_LEAK_LOG -c CPU_USAGE_LOG -o OUTPUT_FILE"
+    echo "Options:"
+    echo "  -r : Path to rust benchmark log file"
+    echo "  -m : Path to memory leak log file"
+    echo "  -c : Path to CPU usage log file"
+    echo "  -o : Path to output file"
+    echo "  -h : Display this help message"
+    exit 1
+}
+
+# Parse command line arguments
+while getopts "r:m:c:o:h" opt; do
+    case $opt in
+        r) input_file_rust_bench="$OPTARG";;
+        m) input_file_memory_leak="$OPTARG";;
+        c) input_file_risc0_cpu="$OPTARG";;
+        o) output_file="$OPTARG";;
+        h) print_usage;;
+        ?) print_usage;;
+    esac
+done
+
+# Validate required arguments
+if [ -z "$input_file_rust_bench" ] || [ -z "$input_file_memory_leak" ] || 
+   [ -z "$input_file_risc0_cpu" ] || [ -z "$output_file" ]; then
+    echo "Error: Missing required arguments"
+    print_usage
+fi
+
+# Check if input files exist
+for file in "$input_file_rust_bench" "$input_file_memory_leak" "$input_file_risc0_cpu"; do
+    if [ ! -f "$file" ]; then
+        echo "Error: File $file does not exist"
+        exit 1
+    fi
+done
 
 # Extract total cycles
 total_cycles=$(grep "total cycles:" "$input_file_rust_bench" | awk '{print $NF}')
@@ -41,11 +74,6 @@ avg_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" |
 proving_time_clean=$(echo "$proving_time" | sed 's/s$//' | awk '{print int($1)}')
 total_power_consumption=$((proving_time_clean * avg_cpu_usage))
 
-# Extract total sum of CPU usage (without averaging)
-total_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" | 
-    awk '{for(i=1;i<=NF;i++) if($i ~ /us/) print $(i-1)}' | 
-    awk '{sum += $1} END {print int(sum)}')
-
 # Write to output file
 {
     echo "Total cycles: $total_cycles"
@@ -55,5 +83,5 @@ total_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" |
     echo "Verification time: $verification_time"
     echo "Peak memory consumption during verification: $peak_memory_verification"
     echo "Total memory leak: $total_memory_leak KB"
-    echo "Total power consumption: $total_cpu_usage%" >> "$output_file"
+    echo "Total power consumption: $total_power_consumption units" >> "$output_file"
 } > "$output_file"

@@ -9,6 +9,9 @@ RESULTS_DIR := $(ROOT_DIR)/results
 cleanup:
 	@-kill `cat $(RESULTS_DIR)/.top.pid` 2>/dev/null || true
 	@rm -f $(RESULTS_DIR)/.top.pid
+	@rm -f $(RESULTS_DIR)/risc0_cpu_usage.log
+	@rm -f $(RESULTS_DIR)/risc0_memory_leak.log
+	@rm -f $(RESULTS_DIR)/risc0_rust_bench.log
 
 # Target for RISC Zero project
 .PHONY: risc0
@@ -29,8 +32,10 @@ risc0: cleanup
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_memory_leak.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_rust_bench.log
+	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/risc0_rust_bench.log -m $(RESULTS_DIR)/risc0_memory_leak.log -c \
+		$(RESULTS_DIR)/risc0_cpu_usage.log -o $(RESULTS_DIR)/risc0_$(TEST_NAME)_benchmark_results
 	@$(MAKE) cleanup
-	@echo "RISC Zero benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_test_project_results.txt"
+	@echo "RISC Zero $(TEST_NAME) benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_$(TEST_NAME)_benchmark_results.txt"
 
 # Target for SP1 benchmarks
 .PHONY: sp1
