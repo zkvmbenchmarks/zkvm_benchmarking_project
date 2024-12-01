@@ -83,5 +83,5 @@ total_power_consumption=$((proving_time_clean * avg_cpu_usage))
     echo "Verification time: $verification_time"
     echo "Peak memory consumption during verification: $peak_memory_verification"
     echo "Total memory leak: $total_memory_leak KB"
-    echo "Total power consumption: $total_power_consumption units" >> "$output_file"
+    echo "Total power consumption: $total_power_consumption units"
 } > "$output_file"
