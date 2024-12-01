@@ -82,3 +82,4 @@ sp1: cleanup
 .PHONY: all
 all: risc0 sp1
 	@echo "All benchmarks completed!"
+
