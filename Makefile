@@ -43,7 +43,7 @@ risc0: cleanup
 	@echo "RISC Zero $(TEST_NAME) benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_$(TEST_NAME)_benchmark_results.txt"
 
 
-#
+
 # Target for SP1 benchmarks
 .PHONY: sp1
 sp1: cleanup
