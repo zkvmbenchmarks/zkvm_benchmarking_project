@@ -13,7 +13,7 @@ cleanup:
 	@rm -f $(RESULTS_DIR)/risc0_memory_leak.log
 	@rm -f $(RESULTS_DIR)/risc0_rust_bench.log
 	@rm -f $(RESULTS_DIR)/sp1_cpu_usage.log
-	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
+#	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
 #	@rm -f $(RESULTS_DIR)/sp1_rust_bench.log
 	@-pkill -f "top -b -d 1" || true
 
@@ -47,8 +47,6 @@ risc0: cleanup
 # Target for SP1 benchmarks
 .PHONY: sp1
 sp1: cleanup
-#şu an default olarak fibonacci proveluyo, input olarak da uzunluğu verebiliyosun, codegen'e nasıl işlencek emin olmadığım için şimdilik böyle bıraktım
-#yani şu an TEST_NAME aslında provelancak fibonaccinin uzunluğu
 	@if [ -z "$(TEST_NAME)" ]; then \
         echo "Error: Please specify a TEST_NAME variable. Example: make risc0 PROJECT=test_project TEST_NAME=test_name"; \
         exit 1; \
@@ -60,13 +58,7 @@ sp1: cleanup
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/sp1_cpu_usage.log; \
         sleep 1; \
     done &
-	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info cargo run --release -- --prove > $(RESULTS_DIR)/sp1_rust_bench.log
-#	doesn't release cycle count info when I directly call executable
-#	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info target/release/fibonacci --prove
-#	runs forever when I call valgrind
-#	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info valgrind --leak-check=full \
-        --log-file=$(RESULTS_DIR)/sp1_memory_leak.log \
-        target/release/fibonacci --prove > $(RESULTS_DIR)/sp1_rust_bench.log
+	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info target/release/fibonacci --prove > $(RESULTS_DIR)/sp1_rust_bench.log
 	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/sp1_rust_bench.log -m $(RESULTS_DIR)/sp1_memory_leak.log -c \
 		$(RESULTS_DIR)/sp1_cpu_usage.log -o $(RESULTS_DIR)/sp1_$(TEST_NAME)_benchmark_results
 	@$(MAKE) cleanup
