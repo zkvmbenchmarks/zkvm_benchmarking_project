@@ -4,14 +4,15 @@ FROM rust:latest
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-#    valgrind \          
+    build-essential \
+    libssl-dev \
     make \              
     procps \            
-    curl \              
+    curl \
+    vim \
+    nano \
     && apt-get clean    
 
-# Set the working directory inside the container
-WORKDIR /app
 
 
 RUN mkdir -p /root/.cargo/bin && \
@@ -19,6 +20,10 @@ RUN mkdir -p /root/.cargo/bin && \
     curl -L https://risczero.com/install | bash && \
     /root/.risc0/bin/rzup install
 
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Set the working directory inside the container
+WORKDIR /app
 
 # Copy the entire project into the container
 COPY . .
