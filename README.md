@@ -10,28 +10,27 @@ TODO: can provide a script for that.
 ## Usage
 ### Run RISC Zero Benchmarks
 
-Run benchmarks for a specific project under risc0_benchmarks:
+Run benchmarks for a specific test under risc0_benchmarks:
 
-make risc0 PROJECT=<project_name>
+make risc0 TEST_NAME=<test_name>
 
 #### Example:
 
-make risc0 PROJECT=test_project
+make risc0 TEST_NAME=vecSum10
 
 #### Results are saved in:
 
-TODO: is this what we want to save?
-results/risc0_<project_name>_results.txt
+results/risc0_[TEST_NAME]_benchmark_results.txt
 
 ### Run SP1 Benchmarks
 
 Run the SP1 benchmarks:
 
-make sp1
+make sp1 TEST_NAME=<test_name>
 
 Results are saved in:
 
-results/sp1_results.txt
+results/sp1_[TEST_NAME]_benchmark_results.txt
 
 ### Run All Benchmarks
 
