@@ -9,11 +9,9 @@ RESULTS_DIR := $(ROOT_DIR)/results
 # Helper target to cleanup background processes
 .PHONY: cleanup
 cleanup:
-	@rm -f $(RESULTS_DIR)/.top.pid
 	@rm -f $(RESULTS_DIR)/risc0_cpu_usage.log
 	@rm -f $(RESULTS_DIR)/risc0_memory_leak.log
 	@rm -f $(RESULTS_DIR)/risc0_rust_bench.log
-	@rm -f $(RESULTS_DIR)/.sp1top.pid
 	@rm -f $(RESULTS_DIR)/sp1_cpu_usage.log
 	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
 #	@rm -f $(RESULTS_DIR)/sp1_rust_bench.log
@@ -32,11 +30,10 @@ risc0: cleanup
 	@mkdir -p $(RESULTS_DIR)
 	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
-	@top -b -d 1 -n 0 | head -n 5 > $(RESULTS_DIR)/risc0_cpu_usage.log & echo $$! > $(RESULTS_DIR)/.top.pid
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/risc0_cpu_usage.log; \
         sleep 1; \
-    done & echo $$! >> $(RESULTS_DIR)/.top.pid
+    done &
 	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
         --log-file=$(RESULTS_DIR)/risc0_memory_leak.log \
         ../target/release/host > $(RESULTS_DIR)/risc0_rust_bench.log
@@ -59,11 +56,10 @@ sp1: cleanup
 	@echo "Running SP1 benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
 	@cd $(SP1_DIR)/sp1_project/program && cargo prove build
-	@top -b -d 1 -n 0 | head -n 5 > $(RESULTS_DIR)/sp1_cpu_usage.log & echo $$! > $(RESULTS_DIR)/.sp1top.pid
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/sp1_cpu_usage.log; \
         sleep 1; \
-    done & echo $$! >> $(RESULTS_DIR)/.sp1top.pid
+    done &
 	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info cargo run --release -- --prove > $(RESULTS_DIR)/sp1_rust_bench.log
 #	doesn't release cycle count info when I directly call executable
 #	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info target/release/fibonacci --prove
