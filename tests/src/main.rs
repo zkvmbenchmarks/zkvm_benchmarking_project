@@ -7,7 +7,7 @@ fn main() {
     generator.generate_code(
         "./test_templates/fibonacci.rs",
         "../risc0_benchmarks/test_project/methods/guest/src/main.rs",
-        "host_test.rs"
+        "../risc0_benchmarks/test_project/host/src/main.rs"
     );
 
     // let risc0_generator = CodeGenerator::new(Box::new(env_adapters::Sp1Env));

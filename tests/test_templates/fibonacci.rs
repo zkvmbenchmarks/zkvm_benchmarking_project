@@ -18,8 +18,8 @@ fn input() -> u32 {
 }
 
 #[host]
-fn other_input() -> f64 {
-    3.14
+fn other_input(n: usize) -> f64 {
+    (2 * n) as f64
 }
 
 #[host]

@@ -31,7 +31,10 @@ impl CodeGenerator {
             new_items.push(import);
         }
 
-        for item in syntax_tree.items {
+        // Strip #[host] attributes from functions
+    let stripped_items = strip_host_attributes(syntax_tree.items);
+
+        for item in stripped_items {
             match &item {
                 syn::Item::Use(use_item) => {
                     if let syn::UseTree::Path(path) = &use_item.tree {
@@ -291,4 +294,18 @@ fn extract_function_from_comment(line: &str) -> Option<(String, String)> {
         }
     }
     None
+}
+
+/// Remove #[host] attributes from functions
+fn strip_host_attributes(items: Vec<syn::Item>) -> Vec<syn::Item> {
+    items
+        .into_iter()
+        .map(|item| match item {
+            syn::Item::Fn(mut func) => {
+                func.attrs.retain(|attr| !attr.meta.path().is_ident("host"));
+                syn::Item::Fn(func)
+            }
+            other => other,
+        })
+        .collect()
 }
