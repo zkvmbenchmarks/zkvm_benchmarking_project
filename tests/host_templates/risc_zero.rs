@@ -22,8 +22,8 @@ fn main() {
 
     let receipt = prove_info.receipt;
 
-    let output = receipt.journal.decode().unwrap();
-
+    let output: u32 = receipt.journal.decode().unwrap();
+    println!("Output: {}", output);
     receipt
         .verify(TEST_PROJECT_ID)
         .unwrap();

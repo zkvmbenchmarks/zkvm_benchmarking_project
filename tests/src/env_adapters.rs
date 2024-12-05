@@ -95,6 +95,7 @@ impl CodeEnv for Risc0Env {
         for assignment in assignments {
             let var_name = assignment.split_whitespace().nth(1).unwrap_or("");
             builder_code.push_str(&format!("    .write(&{})\n", var_name));
+            builder_code.push_str("    .unwrap()\n");
         }
         builder_code.push_str("    .build()\n    .unwrap()");
         builder_code

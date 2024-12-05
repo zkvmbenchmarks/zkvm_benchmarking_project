@@ -27,7 +27,7 @@ fn main() {
     // Read and verify the output.
     let a = proof.public_values.read::<u32>();
 
-    println!("a: {}", a);
+    println!("Output: {}", a);
 
     // Verify proof and public values
     client.verify(&proof, &vk).expect("verification failed");
