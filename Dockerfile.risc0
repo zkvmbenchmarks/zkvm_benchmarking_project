@@ -1,36 +1,38 @@
-# Use the official Rust image as the base (Debian-based)
-FROM rust:latest
 
+# RISC0 Dockerfile
+FROM rust:latest
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
-    make \              
-    procps \            
+    make \
+    procps \
     curl \
+    wget \
+    git \
     vim \
     nano \
-    && apt-get clean    
+    && apt-get clean
 
-
-
+# Install the RISC0 CLI
 RUN mkdir -p /root/.cargo/bin && \
     chmod -R 777 /root/.cargo/bin && \
     curl -L https://risczero.com/install | bash && \
     /root/.risc0/bin/rzup install
 
+# Add RISC0 to the PATH
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the entire project into the container
-COPY . .
+# Copy the RISC0 benchmark files
+COPY ./risc0_benchmarks ./risc0_benchmarks
+COPY log_cleaner.sh .
 
-# Ensure scripts like log_cleaner.sh are executable
+# Ensure scripts are executable
 RUN chmod +x log_cleaner.sh
 
-# Default command (optional, can be overridden)
-CMD ["bash"]
-
+# Default command to open the shell
+CMD ["/bin/bash"]
