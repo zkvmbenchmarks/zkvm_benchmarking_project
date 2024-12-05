@@ -1,9 +1,16 @@
-use syn;
+use std::collections::HashMap;
+
+use quote::ToTokens;
+use syn::{self, ExprCall};
+use std::fmt;
+
 
 pub trait CodeEnv {
     fn read(&self) -> syn::Stmt;
     fn commit(&self, var_name: &str) -> syn::Stmt;
     fn import(&self) -> Vec<syn::Item>;
+    fn generate_host_env(&self, assignments: &[String]) -> String;
+    fn get_host_template(&self) -> String;
 }
 
 pub struct NotImplementedEnv;
@@ -20,15 +27,21 @@ impl CodeEnv for NotImplementedEnv {
     fn import(&self) -> Vec<syn::Item> {
         unimplemented!("Please choose the appropriate environment");
     }
+
+    fn generate_host_env(&self, assignments: &[String]) -> String {
+        unimplemented!("Please choose the appropriate environment");
+    }
+
+    fn get_host_template(&self) -> String {
+        unimplemented!("Please choose the appropriate environment");
+    }
 }
 
 pub struct Sp1Env;
 
 impl CodeEnv for Sp1Env {
     fn read(&self) -> syn::Stmt {
-        let code = format!(
-            "sp1_zkvm::io::read();",
-        );
+        let code = format!("sp1_zkvm::io::read();",);
         syn::parse_str(&code).unwrap()
     }
 
@@ -42,6 +55,14 @@ impl CodeEnv for Sp1Env {
             syn::Item::Verbatim(syn::parse_str("#![no_main]").unwrap()),
             syn::Item::Macro(syn::parse_str("sp1_zkvm::entrypoint!(main);").unwrap()),
         ]
+    }
+
+    fn generate_host_env(&self, assignments: &[String]) -> String {
+        unimplemented!("Please choose the appropriate environment");
+    }
+
+    fn get_host_template(&self) -> String {
+        String::from(include_str!("../host_templates/sp1.rs"))
     }
 }
 
@@ -59,8 +80,23 @@ impl CodeEnv for Risc0Env {
     }
 
     fn import(&self) -> Vec<syn::Item> {
-        vec![
-            syn::Item::Use(syn::parse_str("use risc0_zkvm::guest::env;").unwrap()),
-        ]
+        vec![syn::Item::Use(
+            syn::parse_str("use risc0_zkvm::guest::env;").unwrap(),
+        )]
     }
+
+    fn generate_host_env(&self, assignments: &[String]) -> String {
+        let mut builder_code = String::from("ExecutorEnv::builder()\n");
+        for assignment in assignments {
+            let var_name = assignment.split_whitespace().nth(1).unwrap_or("");
+            builder_code.push_str(&format!("    .write(&{})\n", var_name));
+        }
+        builder_code.push_str("    .build()\n    .unwrap()");
+        builder_code
+    }
+
+    fn get_host_template(&self) -> String {
+        String::from(include_str!("../host_templates/risc_zero.rs"))
+    }
+
 }
