@@ -10,6 +10,7 @@ RESULTS_DIR := $(ROOT_DIR)/results
 .PHONY: cleanup
 cleanup:
 	@rm -f $(RESULTS_DIR)/risc0_cpu_usage.log
+	@rm -f $(RESULTS_DIR)/risc0_memory_leak.log
 	@rm -f $(RESULTS_DIR)/risc0_rust_bench.log
 	@rm -f $(RESULTS_DIR)/sp1_cpu_usage.log
 #	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
@@ -27,13 +28,17 @@ risc0: cleanup
     fi
 	@echo "Running RISC Zero benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
+	@cd $(ROOT_DIR)/tests && cargo run $(TEST_NAME)
 	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/risc0_cpu_usage.log; \
         sleep 1; \
     done &
-	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/risc0_rust_bench.log -c \
+	@cd $(RISC0_DIR)/test_project/host && RUST_LOG=info valgrind --leak-check=full \
+        --log-file=$(RESULTS_DIR)/risc0_memory_leak.log \
+        ../target/release/host > $(RESULTS_DIR)/risc0_rust_bench.log
+	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/risc0_rust_bench.log -m $(RESULTS_DIR)/risc0_memory_leak.log -c \
 		$(RESULTS_DIR)/risc0_cpu_usage.log -o $(RESULTS_DIR)/risc0_$(TEST_NAME)_benchmark_results
 	@$(MAKE) cleanup
 	@echo "RISC Zero $(TEST_NAME) benchmarks completed! Results saved to $(RESULTS_DIR)/risc0_$(TEST_NAME)_benchmark_results.txt"
@@ -49,6 +54,7 @@ sp1: cleanup
     fi
 	@echo "Running SP1 benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
+	@cd $(ROOT_DIR)/tests && cargo run $(TEST_NAME)
 	@cd $(SP1_DIR)/sp1_project/program && cargo prove build
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/sp1_cpu_usage.log; \

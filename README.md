@@ -8,6 +8,7 @@ Each zkVM runs in its own Docker container. Ensure `docker` is installed and con
 
 ## Setup
 
+
 Build Docker environments for RISC Zero and SP1:
 
 ```bash
@@ -36,7 +37,10 @@ Example:
 
 make risc0 TEST_NAME=vecSum10
 
+make risc0 TEST_NAME=fibonacci
+
 Results: results/risc0_[TEST_NAME]_benchmark_results.txt
+
 Run SP1 Benchmarks
 
 Once inside the SP1 Docker environment, run:
@@ -46,8 +50,10 @@ make sp1 TEST_NAME=<test_name>
 Example:
 
 make sp1 TEST_NAME=fibTest
+make sp1 TEST_NAME=isprime
 
 Results: results/sp1_[TEST_NAME]_benchmark_results.txt
+
 Run All Benchmarks
 
 Inside each Docker environment, run:
@@ -67,16 +73,6 @@ Build and run a sample test in the SP1 Docker environment:
 
 bash run_sp1_sample_test_in_docker.sh
 
-File Overview
-
-    built_docker_environments.sh: Build Docker containers for RISC Zero and SP1.
-    Dockerfile.risc0: Dockerfile for RISC Zero.
-    Dockerfile.sp1: Dockerfile for SP1.
-    Makefile: Tasks for benchmarks.
-    log_cleaner.sh: Cleans and formats logs.
-    results/: Benchmark results.
-    risc0_benchmarks/: RISC Zero projects.
-    sp1_benchmarks/: SP1 projects.
 
 
 
