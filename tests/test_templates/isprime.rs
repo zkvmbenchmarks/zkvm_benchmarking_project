@@ -11,7 +11,7 @@ fn main() {
 fn input() -> u64 {
     230932049823041
 }
-
+// Implementation from https://en.wikipedia.org/wiki/Primality_test
 fn is_prime(n: u64) -> bool {
     if n <= 1 {
         return false;
