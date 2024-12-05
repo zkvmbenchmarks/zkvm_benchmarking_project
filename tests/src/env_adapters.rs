@@ -46,7 +46,7 @@ impl CodeEnv for Sp1Env {
     }
 
     fn commit(&self, var_name: &str) -> syn::Stmt {
-        let code = format!("sp1_zkvm::io::commit_slice(&{0});", var_name);
+        let code = format!("sp1_zkvm::io::commit(&{0});", var_name);
         syn::parse_str(&code).unwrap()
     }
 
@@ -58,7 +58,12 @@ impl CodeEnv for Sp1Env {
     }
 
     fn generate_host_env(&self, assignments: &[String]) -> String {
-        unimplemented!("Please choose the appropriate environment");
+        let mut builder_code = String::from("let mut stdin = SP1Stdin::new();\n");
+        for assignment in assignments {
+            let var_name = assignment.split_whitespace().nth(1).unwrap_or("");
+            builder_code.push_str(&format!("stdin.write(&{});\n", var_name));
+        }
+        builder_code
     }
 
     fn get_host_template(&self) -> String {

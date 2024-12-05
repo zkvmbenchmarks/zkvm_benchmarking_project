@@ -165,7 +165,7 @@ impl CodeGenerator {
     
         let env_code = self.env.generate_host_env(&assignments);
     
-        let host_template = include_str!("../host_templates/risc_zero.rs");
+        let host_template = self.env.get_host_template();
 
         let mut generated_code = host_template.to_string();
         let assignment_lines = assignments.join("\n");
