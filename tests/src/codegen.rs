@@ -146,7 +146,6 @@ impl CodeGenerator {
         input_path: &str,
         host_file_path: &str,
     ) {
-        // Step 1: Extract assignments from the input source
         let source_code = fs::read_to_string(input_path).expect("Failed to read the input file");
         let syntax_tree = parse_file(&source_code).expect("Failed to parse the input file");
         let main_function = syntax_tree
@@ -161,10 +160,8 @@ impl CodeGenerator {
         let source_lines: Vec<&str> = source_code.lines().collect();
         let assignments = extract_read_assignments(main_function, &source_lines);
     
-        // Step 2: Generate the ExecutorEnv code
         let env_code = self.env.generate_host_env(&assignments);
     
-        // Step 3: Replace placeholders in the template
         let host_template = include_str!("../host_templates/risc_zero.rs");
 
         let mut generated_code = host_template.to_string();
@@ -172,7 +169,6 @@ impl CodeGenerator {
         generated_code = generated_code.replace("// INPUT_ASSIGNMENTS", &assignment_lines);
         generated_code = generated_code.replace("// ENVIRONMENT_BUILDER", &env_code);
     
-        // Step 4: Write the generated code to the host file
         fs::write(host_file_path, generated_code).expect("Failed to write to the host file");
     }
 
@@ -184,14 +180,11 @@ fn has_host_annotation(attrs: &[Attribute]) -> bool {
 }
 
 fn append_host_functions_to_syn_tree(input_path: &str, host_file_path: &str) {
-    // Read the input Rust source file
     let source_code =
         fs::read_to_string(input_path).expect("Failed to read the input Rust source file");
 
-    // Parse the source file into a syntax tree
     let syntax_tree = parse_file(&source_code).expect("Failed to parse the input Rust source file");
 
-    // Extract #[host] annotated functions
     let host_functions: Vec<ItemFn> = syntax_tree
         .items
         .into_iter()
@@ -206,25 +199,21 @@ fn append_host_functions_to_syn_tree(input_path: &str, host_file_path: &str) {
         })
         .collect();
 
-    // Read and parse the existing host file, or create a new `File` if it doesn't exist
     let mut host_syntax_tree: File = match fs::read_to_string(host_file_path) {
         Ok(content) => parse_file(&content).expect("Failed to parse the existing host file"),
         Err(_) => File {
             shebang: None,
             items: Vec::new(),
-            attrs: Vec::new(), // Initialize attrs as an empty vector
+            attrs: Vec::new(),
         },
     };
 
-    // Append the extracted functions to the host file's syntax tree
     host_syntax_tree
         .items
         .extend(host_functions.into_iter().map(Item::Fn));
 
-    // Serialize the updated syntax tree into Rust code
     let updated_code = format_syntax_tree(&host_syntax_tree);
 
-    // Write the updated syntax tree to the host file
     fs::write(host_file_path, updated_code).expect("Failed to write the updated host file");
 }
 
@@ -234,40 +223,12 @@ fn format_syntax_tree(file: &File) -> String {
     // Serialize each item in the syntax tree into its token stream
     for item in &file.items {
         code.push_str(&item.to_token_stream().to_string());
-        code.push('\n'); // Add a newline after each item for readability
+        code.push('\n');
     }
 
     code
 }
 
-fn generate_env_read_assignments(input_path: &str, host_file_path: &str) {
-    // Read the input Rust source file
-    let source_code = fs::read_to_string(input_path)
-        .expect("Failed to read the input Rust source file");
-
-    // Parse the source file into a syntax tree
-    let syntax_tree = parse_file(&source_code)
-        .expect("Failed to parse the input Rust source file");
-
-    // Find the `main` function in the syntax tree
-    let main_function = syntax_tree.items.iter().find_map(|item| {
-        if let syn::Item::Fn(func) = item {
-            if func.sig.ident == "main" {
-                return Some(func);
-            }
-        }
-        None
-    }).expect("Could not find the `main` function in the input file");
-
-    // Split source into lines for comment extraction
-    let source_lines: Vec<&str> = source_code.lines().collect();
-
-    // Extract the list of variable assignments
-    let assignments = extract_read_assignments(main_function, &source_lines);
-
-    // Write the assignments to the host file
-    write_assignments_to_host_file(assignments, host_file_path);
-}
 
 /// Extract `env::read()` calls from the body of the `main` function and generate assignments
 fn extract_read_assignments(main_function: &ItemFn, source_lines: &[&str]) -> Vec<String> {
@@ -275,9 +236,7 @@ fn extract_read_assignments(main_function: &ItemFn, source_lines: &[&str]) -> Ve
     let mut current_line = 0;
     let mut input_index = 1;
 
-    // Traverse the function body to find `env::read()` calls
     for stmt in &main_function.block.stmts {
-        // Advance the current line to find the corresponding statement in source
         while current_line < source_lines.len() && !source_lines[current_line].contains("env::read") {
             current_line += 1;
         }
@@ -332,16 +291,4 @@ fn extract_function_from_comment(line: &str) -> Option<(String, String)> {
         }
     }
     None
-}
-
-/// Write the assignments to the host file
-fn write_assignments_to_host_file(assignments: Vec<String>, host_file_path: &str) {
-    let mut host_file_content = fs::read_to_string(host_file_path).unwrap_or_else(|_| String::new());
-
-    for assignment in assignments {
-        host_file_content.push_str(&format!("{}\n", assignment));
-    }
-
-    fs::write(host_file_path, host_file_content)
-        .expect("Failed to write to the host file");
 }
