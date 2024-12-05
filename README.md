@@ -16,7 +16,7 @@ make risc0 TEST_NAME=<test_name>
 
 #### Example:
 
-make risc0 TEST_NAME=vecSum10
+make risc0 TEST_NAME=fibonacci
 
 #### Results are saved in:
 
@@ -26,7 +26,7 @@ results/risc0_[TEST_NAME]_benchmark_results.txt
 
 Run the SP1 benchmarks:
 
-make sp1 TEST_NAME=<test_name>
+make sp1 TEST_NAME=isprime
 
 Results are saved in:
 

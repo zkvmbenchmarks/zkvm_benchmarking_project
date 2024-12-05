@@ -28,6 +28,7 @@ risc0: cleanup
     fi
 	@echo "Running RISC Zero benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
+	@cd $(ROOT_DIR)/tests && cargo run $(TEST_NAME)
 	@cd $(RISC0_DIR)/test_project/methods && cargo build --release
 	@cd $(RISC0_DIR)/test_project/host && cargo build --release
 	@while true; do \
@@ -53,6 +54,7 @@ sp1: cleanup
     fi
 	@echo "Running SP1 benchmarks for: $(TEST_NAME)"
 	@mkdir -p $(RESULTS_DIR)
+	@cd $(ROOT_DIR)/tests && cargo run $(TEST_NAME)
 	@cd $(SP1_DIR)/sp1_project/program && cargo prove build
 	@while true; do \
         top -b -d 1 -n 1 | head -n 5 >> $(RESULTS_DIR)/sp1_cpu_usage.log; \
