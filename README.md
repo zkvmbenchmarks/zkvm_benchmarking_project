@@ -1,40 +1,78 @@
 # zkVM Benchmarking Project
 
-This project benchmarks zkVMs like RISC Zero and SP1.
+This project benchmarks zkVMs like RISC Zero and SP1 in isolated Docker environments.
 
 ## Requirements
 
-each zkvm in the project should be installed manually. 
-TODO: can provide a script for that.
+Each zkVM runs in its own Docker container. Ensure `docker` is installed and configured.
 
-## Usage
-### Run RISC Zero Benchmarks
+## Setup
 
-Run benchmarks for a specific test under risc0_benchmarks:
+
+Build Docker environments for RISC Zero and SP1:
+
+```bash
+bash built_docker_environments.sh
+
+Usage
+Enter Docker Environments
+
+To run benchmarks, first enter the corresponding Docker environment.
+RISC Zero Docker Environment
+
+docker run -it --rm -v $(pwd):/app zkvm-benchmarking-risc0 bash
+
+SP1 Docker Environment
+
+docker run -it --rm -v $(pwd):/app zkvm-benchmarking-sp1 bash
+
+Run Benchmarks in Docker
+Run RISC Zero Benchmarks
+
+Once inside the RISC Zero Docker environment, run:
 
 make risc0 TEST_NAME=<test_name>
 
-#### Example:
+Example:
+
+make risc0 TEST_NAME=vecSum10
 
 make risc0 TEST_NAME=fibonacci
 
-#### Results are saved in:
+Results: results/risc0_[TEST_NAME]_benchmark_results.txt
 
-results/risc0_[TEST_NAME]_benchmark_results.txt
+Run SP1 Benchmarks
 
-### Run SP1 Benchmarks
+Once inside the SP1 Docker environment, run:
 
-Run the SP1 benchmarks:
+make sp1 TEST_NAME=<test_name>
 
+Example:
+
+make sp1 TEST_NAME=fibTest
 make sp1 TEST_NAME=isprime
 
-Results are saved in:
+Results: results/sp1_[TEST_NAME]_benchmark_results.txt
 
-results/sp1_[TEST_NAME]_benchmark_results.txt
+Run All Benchmarks
 
-### Run All Benchmarks
+Inside each Docker environment, run:
 
-Run benchmarks for both RISC Zero and SP1:
+make all
 
-make all PROJECT=<project_name>
+Running Sample Tests
+RISC Zero
+
+Build and run a sample test in the RISC Zero Docker environment:
+
+bash run_risc0_sample_test_in_docker.sh
+
+SP1
+
+Build and run a sample test in the SP1 Docker environment:
+
+bash run_sp1_sample_test_in_docker.sh
+
+
+
 
