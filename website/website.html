@@ -93,6 +93,7 @@
         table th:first-child, table td:first-child {
             border-left: none; /* Remove left border */
             width: 150px; /* Set fixed width for the first column */
+            font-weight: bold; /* Make text in the first column bold */
         }
 
         table th:last-child, table td:last-child {
@@ -108,17 +109,37 @@
         }
 
         #benchmark-results-fibonacci,
-        #benchmark-results-Prime,
-        #benchmark-results-RSA {
+        #benchmark-results-Prime{
             padding-bottom: 100px;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #777;
-            border-top: 1px solid #ddd;
+        #benchmark-results-RSA {
+            padding-bottom: 300px;
+        }
+
+        #documentation {
+            width: 90%;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        #documentation h2,
+        #documentation p,
+        #documentation ul {
+            margin-left: 0;
+            padding-left: 0;
+            text-align: left;
+        }
+
+        #documentation ul {
+            margin: 0;
+            padding-left: 20px; /* Add padding to align bullets with content */
+            list-style-type: disc; /* Use default bullet points */
+        }
+
+        /* Remove the custom dash prefix */
+        #documentation ul li::before {
+            content: none;
         }
     </style>
 </head>
@@ -155,12 +176,12 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Fibonacci-10</td>
+                    <td>fibonacci_10</td>
                     <td>100ms</td>
                     <td>120ms</td>
                 </tr>
                 <tr>
-                    <td>Fibonacci-100/td>
+                    <td>fibonacci_100</td>
                     <td>150ms</td>
                     <td>140ms</td>
                 </tr>
@@ -179,17 +200,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Prime-10</td>
+                    <td>prime_10</td>
                     <td>100ms</td>
                     <td>120ms</td>
                 </tr>
                 <tr>
-                    <td>Prime-100/td>
+                    <td>prime_100</td>
                     <td>150ms</td>
                     <td>140ms</td>
                 </tr>
                 <tr>
-                    <td>Prime-1000</td>
+                    <td>prime_1000</td>
                     <td>200ms</td>
                     <td>180ms</td>
                 </tr>
@@ -216,9 +237,15 @@
         </table>
     </div>
 
-    <footer>
-        <p>This website presents benchmarking results for zero-knowledge proof systems to aid the community in understanding their performance characteristics.</p>
-    </footer>
+    <div id="documentation">
+        <h2>SAMPLE HEADER</h2>
+        <p>Text text text</p>
+        <ul>
+            <li>text</li>
+            <li>text</li>
+            <li>text</li>
+        </ul>
+    </div>
 
     <script>
         function showMetric(metric) {
