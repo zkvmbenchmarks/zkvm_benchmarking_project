@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Bench</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        header .logo {
+            width: 500px;
+            height: auto;
+            padding-top: 150px; /* Added padding-top */
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 20px 0 10px;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            color: #555;
+            padding-bottom: 300px;
+        }
+
+        .github-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .github-icon img {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            padding-bottom: 100px;
+        }
+
+        .buttons button {
+            background-color: transparent;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .buttons button.active {
+            background-color: black;
+            color: white;
+            border: none;
+        }
+
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+            background-color: transparent; /* Set background to transparent */
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: transparent; /* Set background to transparent */
+            font-weight: bold;
+        }
+
+        table th:first-child, table td:first-child {
+            border-left: none; /* Remove left border */
+            width: 150px; /* Set fixed width for the first column */
+        }
+
+        table th:last-child, table td:last-child {
+            border-right: none; /* Remove right border */
+        }
+
+        table tr:first-child th {
+            border-top: none; /* Remove top border */
+        }
+
+        table tr:last-child td {
+            border-bottom: none; /* Remove bottom border */
+        }
+
+        #benchmark-results-fibonacci,
+        #benchmark-results-Prime,
+        #benchmark-results-RSA {
+            padding-bottom: 100px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #777;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="github-icon">
+            <a href="https://github.com/zkvmbenchmarks/zkvm_benchmarking_project" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+            </a>
+        </div>
+        <img class="logo" src="images/stoic_man" alt="Knowledge Bench Logo">
+        <h1>Knowledge Bench</h1>
+        <p>Open-Source Zero Knowledge Virtual Machine Benchmarks</p>
+    </header>
+
+    <div class="buttons">
+        <button class="active" onclick="showMetric('Proving time')">Proving time</button>
+        <button onclick="showMetric('Total cycles')">Total cycles</button>
+        <button onclick="showMetric('Peak memory consumption')">Peak memory consumption</button>
+        <button onclick="showMetric('Proof size')">Proof size</button>
+        <button onclick="showMetric('Verification time')">Verification time</button>
+        <button onclick="showMetric('Memory leak')">Memory leak</button>
+        <button onclick="showMetric('Power consumption')">Power consumption</button>
+    </div>
+
+    <div id="benchmark-results-fibonacci">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>RISC0</th>
+                    <th>SP1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fibonacci-10</td>
+                    <td>100ms</td>
+                    <td>120ms</td>
+                </tr>
+                <tr>
+                    <td>Fibonacci-100/td>
+                    <td>150ms</td>
+                    <td>140ms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="benchmark-results-Prime">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>RISC0</th>
+                    <th>SP1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Prime-10</td>
+                    <td>100ms</td>
+                    <td>120ms</td>
+                </tr>
+                <tr>
+                    <td>Prime-100/td>
+                    <td>150ms</td>
+                    <td>140ms</td>
+                </tr>
+                <tr>
+                    <td>Prime-1000</td>
+                    <td>200ms</td>
+                    <td>180ms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="benchmark-results-RSA">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>RISC0</th>
+                    <th>SP1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>RSA</td>
+                    <td>100ms</td>
+                    <td>120ms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>This website presents benchmarking results for zero-knowledge proof systems to aid the community in understanding their performance characteristics.</p>
+    </footer>
+
+    <script>
+        function showMetric(metric) {
+            const buttons = document.querySelectorAll('.buttons button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            const activeButton = Array.from(buttons).find(btn => btn.textContent === metric);
+            if (activeButton) activeButton.classList.add('active');
+            
+            // Replace this with logic to update the table data
+            console.log(`Switching to metric: ${metric}`);
+        }
+    </script>
+</body>
+</html>
