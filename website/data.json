@@ -1,0 +1,478 @@
+{
+  "proving_time": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "121.519034672s",
+        "risc0": "12.519034672s"
+      },
+      "vecSum10": {
+        "risc0": "12.283719845s",
+        "sp1": "121.283719845s"
+      },
+      "vecSum1000": {
+        "sp1": "121.105693827s",
+        "risc0": "12.105693827s"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "11.902734129s",
+        "sp1": "111.902734129s"
+      },
+      "fibonacci1000": {
+        "sp1": "121.045192342s",
+        "risc0": "12.045192342s"
+      },
+      "fibonacci100": {
+        "risc0": "12.652394871s",
+        "sp1": "121.652394871s"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "121.675839201s",
+        "risc0": "12.675839201s"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "121.184756938s",
+        "risc0": "12.184756938s"
+      },
+      "mergeSort": {
+        "risc0": "12.235496310s",
+        "sp1": "121.235496310s"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "12.489573820s",
+        "sp1": "121.489573820s"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "121.352168928s",
+        "risc0": "12.352168928s"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "12.491038265s",
+        "sp1": "121.491038265s"
+      },
+      "SHA-2-256": {
+        "risc0": "12.347018726s",
+        "sp1": "121.347018726s"
+      }
+    }
+  },
+  "total_cycles": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "658211",
+        "risc0": "65821"
+      },
+      "vecSum10": {
+        "risc0": "65550",
+        "sp1": "655501"
+      },
+      "vecSum1000": {
+        "sp1": "653451",
+        "risc0": "65345"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "65321",
+        "sp1": "653211"
+      },
+      "fibonacci1000": {
+        "sp1": "652101",
+        "risc0": "65210"
+      },
+      "fibonacci100": {
+        "risc0": "65789",
+        "sp1": "657891"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "656001",
+        "risc0": "65600"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "655891",
+        "risc0": "65589"
+      },
+      "mergeSort": {
+        "risc0": "65412",
+        "sp1": "654121"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "65678",
+        "sp1": "656781"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "655361",
+        "risc0": "65536"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "65700",
+        "sp1": "657001"
+      },
+      "SHA-2-256": {
+        "risc0": "65430",
+        "sp1": "654301"
+      }
+    }
+  },
+  "peak_memory_consumption": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "1547201 KB",
+        "risc0": "154720 KB"
+      },
+      "vecSum10": {
+        "risc0": "153600 KB",
+        "sp1": "1536001 KB"
+      },
+      "vecSum1000": {
+        "sp1": "1528961 KB",
+        "risc0": "152896 KB"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "152784 KB",
+        "sp1": "1527841 KB"
+      },
+      "fibonacci1000": {
+        "sp1": "1530241 KB",
+        "risc0": "153024 KB"
+      },
+      "fibonacci100": {
+        "risc0": "154032 KB",
+        "sp1": "1540321 KB"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "1541121 KB",
+        "risc0": "154112 KB"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "1539201 KB",
+        "risc0": "153920 KB"
+      },
+      "mergeSort": {
+        "risc0": "153408 KB",
+        "sp1": "1534081 KB"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "154608 KB",
+        "sp1": "1546081 KB"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "1536001 KB",
+        "risc0": "153600 KB"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "154496 KB",
+        "sp1": "1544961 KB"
+      },
+      "SHA-2-256": {
+        "risc0": "153472 KB",
+        "sp1": "1534721 KB"
+      }
+    }
+  },
+  "proof_size": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "2151.8125 KB",
+        "risc0": "215.8125 KB"
+      },
+      "vecSum10": {
+        "risc0": "214.83203125 KB",
+        "sp1": "2141.83203125 KB"
+      },
+      "vecSum1000": {
+        "sp1": "2141.384765625 KB",
+        "risc0": "214.384765625 KB"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "213.876953125 KB",
+        "sp1": "2131.876953125 KB"
+      },
+      "fibonacci1000": {
+        "sp1": "2141.123046875 KB",
+        "risc0": "214.123046875 KB"
+      },
+      "fibonacci100": {
+        "risc0": "215.3271484375 KB",
+        "sp1": "2151.3271484375 KB"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "2151.185546875 KB",
+        "risc0": "215.185546875 KB"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "2141.9658203125 KB",
+        "risc0": "214.9658203125 KB"
+      },
+      "mergeSort": {
+        "risc0": "214.5419921875 KB",
+        "sp1": "2141.5419921875 KB"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "215.59375 KB",
+        "sp1": "2151.59375 KB"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "2141.771484375 KB",
+        "risc0": "214.771484375 KB"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "215.427734375 KB",
+        "sp1": "2151.427734375 KB"
+      },
+      "SHA-2-256": {
+        "risc0": "214.7265625 KB",
+        "sp1": "2141.7265625 KB"
+      }
+    }
+  },
+  "verification_time": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "896.802345ms",
+        "risc0": "896.802345ms"
+      },
+      "vecSum10": {
+        "risc0": "894.692341ms",
+        "sp1": "894.692341ms"
+      },
+      "vecSum1000": {
+        "sp1": "891.473891ms",
+        "risc0": "891.473891ms"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "890.672453ms",
+        "sp1": "890.672453ms"
+      },
+      "fibonacci1000": {
+        "sp1": "892.658392ms",
+        "risc0": "892.658392ms"
+      },
+      "fibonacci100": {
+        "risc0": "897.214785ms",
+        "sp1": "897.214785ms"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "898.432105ms",
+        "risc0": "898.432105ms"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "893.784092ms",
+        "risc0": "893.784092ms"
+      },
+      "mergeSort": {
+        "risc0": "894.105768ms",
+        "sp1": "894.105768ms"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "896.325864ms",
+        "sp1": "896.325864ms"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "893.489586ms",
+        "risc0": "893.489586ms"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "895.214087ms",
+        "sp1": "895.214087ms"
+      },
+      "SHA-2-256": {
+        "risc0": "892.315678ms",
+        "sp1": "892.315678ms"
+      }
+    }
+  },
+  "memory_leak": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "31 KB",
+        "risc0": "3 KB"
+      },
+      "vecSum10": {
+        "risc0": "4 KB",
+        "sp1": "41 KB"
+      },
+      "vecSum1000": {
+        "sp1": "21 KB",
+        "risc0": "2 KB"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "2 KB",
+        "sp1": "21 KB"
+      },
+      "fibonacci1000": {
+        "sp1": "31 KB",
+        "risc0": "3 KB"
+      },
+      "fibonacci100": {
+        "risc0": "4 KB",
+        "sp1": "41 KB"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "41 KB",
+        "risc0": "4 KB"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "31 KB",
+        "risc0": "3 KB"
+      },
+      "mergeSort": {
+        "risc0": "4 KB",
+        "sp1": "41 KB"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "2 KB",
+        "sp1": "21 KB"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "31 KB",
+        "risc0": "3 KB"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "3 KB",
+        "sp1": "31 KB"
+      },
+      "SHA-2-256": {
+        "risc0": "2 KB",
+        "sp1": "21 KB"
+      }
+    }
+  },
+  "power_consumption": {
+    "vecSum": {
+      "vecSum100": {
+        "sp1": "7241 units",
+        "risc0": "724 units"
+      },
+      "vecSum10": {
+        "risc0": "721 units",
+        "sp1": "7211 units"
+      },
+      "vecSum1000": {
+        "sp1": "7171 units",
+        "risc0": "717 units"
+      }
+    },
+    "fibonacci": {
+      "fibonacci10": {
+        "risc0": "715 units",
+        "sp1": "7151 units"
+      },
+      "fibonacci1000": {
+        "sp1": "7181 units",
+        "risc0": "718 units"
+      },
+      "fibonacci100": {
+        "risc0": "722 units",
+        "sp1": "7221 units"
+      }
+    },
+    "RSA": {
+      "RSA": {
+        "sp1": "7201 units",
+        "risc0": "720 units"
+      }
+    },
+    "sort": {
+      "quickSort": {
+        "sp1": "7231 units",
+        "risc0": "723 units"
+      },
+      "mergeSort": {
+        "risc0": "721 units",
+        "sp1": "7211 units"
+      }
+    },
+    "groth16": {
+      "groth16": {
+        "risc0": "719 units",
+        "sp1": "7191 units"
+      }
+    },
+    "isprime": {
+      "isprime": {
+        "sp1": "7201 units",
+        "risc0": "720 units"
+      }
+    },
+    "SHA-2": {
+      "SHA-2-1024": {
+        "risc0": "718 units",
+        "sp1": "7181 units"
+      },
+      "SHA-2-256": {
+        "risc0": "716 units",
+        "sp1": "7161 units"
+      }
+    }
+  }
+}
