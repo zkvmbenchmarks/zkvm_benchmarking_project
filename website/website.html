@@ -166,71 +166,8 @@
         <button onclick="showMetric('Power consumption')">Power consumption</button>
     </div>
 
-    <div id="benchmark-results-fibonacci">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>RISC0</th>
-                    <th>SP1</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>fibonacci10</td>
-                    <td>100ms</td>
-                    <td>120ms</td>
-                </tr>
-                <tr>
-                    <td>fibonacci100</td>
-                    <td>150ms</td>
-                    <td>140ms</td>
-                </tr>
-                <tr>
-                    <td>fibonacci1000</td>
-                    <td>150ms</td>
-                    <td>140ms</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="benchmark-results-Prime">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>RISC0</th>
-                    <th>SP1</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>isPrime</td>
-                    <td>100ms</td>
-                    <td>120ms</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="benchmark-results-RSA">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>RISC0</th>
-                    <th>SP1</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>RSA</td>
-                    <td>100ms</td>
-                    <td>120ms</td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="benchmark-results">
+        <!-- Tables will be generated dynamically -->
     </div>
 
     <div id="documentation">
@@ -258,15 +195,62 @@
     </div>
 
     <script>
+        let benchmarkData = null;
+
+        // Load the data when page loads
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                benchmarkData = data;
+                // Show initial metric
+                showMetric('Proving time');
+            });
+
+        function createBenchmarkTable(category, data) {
+            return `
+                <div id="benchmark-results-${category}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>RISC0</th>
+                                <th>SP1</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.entries(data).map(([test, results]) => `
+                                <tr>
+                                    <td>${test}</td>
+                                    <td>${results.risc0}</td>
+                                    <td>${results.sp1}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
         function showMetric(metric) {
+            // Update active button
             const buttons = document.querySelectorAll('.buttons button');
             buttons.forEach(button => button.classList.remove('active'));
-            
             const activeButton = Array.from(buttons).find(btn => btn.textContent === metric);
             if (activeButton) activeButton.classList.add('active');
             
-            // Replace this with logic to update the table data
-            console.log(`Switching to metric: ${metric}`);
+            if (benchmarkData) {
+                const metricKey = metric.toLowerCase().replace(/ /g, '_');
+                const resultsContainer = document.getElementById('benchmark-results');
+                
+                // Clear existing tables
+                resultsContainer.innerHTML = '';
+                
+                // Create tables for each category
+                const metricData = benchmarkData[metricKey];
+                Object.entries(metricData).forEach(([category, categoryData]) => {
+                    resultsContainer.innerHTML += createBenchmarkTable(category, categoryData);
+                });
+            }
         }
     </script>
 </body>
