@@ -76,7 +76,8 @@
             margin: 0 auto;
             border-collapse: collapse;
             margin-bottom: 50px;
-            background-color: transparent; /* Set background to transparent */
+            table-layout: fixed; /* Add this */
+            background-color: transparent;
         }
 
         table th, table td {
@@ -91,9 +92,15 @@
         }
 
         table th:first-child, table td:first-child {
-            border-left: none; /* Remove left border */
-            width: 150px; /* Set fixed width for the first column */
-            font-weight: bold; /* Make text in the first column bold */
+            border-left: none;
+            width: 150px;
+            font-weight: bold;
+        }
+
+        /* Add these new rules */
+        table th:not(:first-child), 
+        table td:not(:first-child) {
+            width: calc((100% - 150px) / 2); /* Distribute remaining width equally */
         }
 
         table th:last-child, table td:last-child {
@@ -108,13 +115,13 @@
             border-bottom: none; /* Remove bottom border */
         }
 
-        #benchmark-results-fibonacci,
-        #benchmark-results-Prime{
-            padding-bottom: 100px;
+        #benchmark-results-fibonacci {
+            padding-bottom: 300px;
         }
 
-        #benchmark-results-RSA {
-            padding-bottom: 300px;
+        /* Add this new rule for all benchmark result containers */
+        #benchmark-results > div {
+            margin-bottom: 100px;
         }
 
         #documentation {
