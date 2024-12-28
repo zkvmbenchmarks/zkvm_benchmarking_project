@@ -102,7 +102,7 @@ Build and run a sample test in the SP1 Docker environment:
 bash run_sp1_sample_test_in_docker.sh
 ```
 
-Build and run a sample test in the SP1 Docker environment:
+Build and run a sample test in the Valida Docker environment:
 ```bash
 bash run_valida_sample_test_in_docker.sh
 ```
