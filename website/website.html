@@ -128,6 +128,7 @@
             width: 90%;
             margin: 0 auto;
             text-align: justify;
+            padding-bottom: 50px;
         }
 
         #documentation h2,
@@ -142,7 +143,6 @@
             margin: 0;
             padding-left: 20px; /* Add padding to align bullets with content */
             list-style-type: disc; /* Use default bullet points */
-            padding-bottom: 50px;
         }
 
         /* Remove the custom dash prefix */
@@ -178,27 +178,26 @@
     </div>
 
     <div id="documentation">
-        <h2>Lorem Ipsum</h2>
+        <h2>About</h2>
         <p style="text-indent: 30px;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nec mattis lectus. Donec in lectus sit amet ipsum porta posuere. Phasellus maximus arcu libero, vel tempor tellus eleifend at. Suspendisse nec laoreet nisi. Proin sed odio sit amet nibh tempus tincidunt sit amet quis metus. Nulla congue ut eros at pulvinar. Cras vestibulum varius tempus. Nullam leo velit, sagittis in ornare eu, rhoncus blandit orci. Quisque eu enim a metus rutrum dapibus sed at metus.
+            This website shows the results from benchmarks of the zkVMs RISC Zero, SP1 and Valida. This is a final project by three Koc University students, done in collaboration with Chainway Labs. In the making of this project, we tried to make our code as robust and accurate as possible, but there probably still are some injustices or inefficiencies in the measurements or the picking of tests. We don't claim that our results represent the absolute objective truth, so they should be taken with caution.
         </p>
+        <h2>What is a zkVM</h2>
         <p style="text-indent: 30px;">
-            Praesent massa dui, dictum vitae interdum nec, venenatis vel nunc. In pulvinar arcu ut ligula luctus vehicula. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris fringilla ultricies efficitur. In eros odio, fringilla ut purus eu, congue interdum nulla. Phasellus feugiat urna id augue lacinia, at ultrices ante finibus. Curabitur gravida rhoncus lacus sed consequat. Fusce bibendum consequat nulla, sed eleifend erat maximus in. Nam ultrices eget risus nec condimentum. Etiam at mattis lectus. Pellentesque aliquet et nibh at viverra.
+            A zkVM (Zero-Knowledge Virtual Machine) is a virtual machine that executes smart contracts or computations using zero-knowledge proofs (ZKPs). These proofs allow the zkVM to verify the correctness of computations without revealing the actual data involved in those computations. The key idea behind a zkVM is to enable private computation, where the inputs and outputs of a computation can remain hidden, while still proving that the computation was performed correctly.
         </p>
         <p style="text-indent: 30px;">       
-            Nam consectetur, urna vel viverra sodales, nunc velit iaculis ipsum, ut luctus dolor massa at augue. Nulla at mi ut mi suscipit bibendum. Aliquam eget luctus ipsum. Quisque consequat enim eget scelerisque cursus. Curabitur ut vestibulum mauris, at finibus metus. Aliquam libero magna, eleifend non lobortis at, ornare vel dolor. Integer vel diam at velit ullamcorper laoreet. Cras vehicula urna lacus, quis sagittis augue scelerisque ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut interdum justo erat, in imperdiet sem porta vestibulum. Ut euismod massa et neque efficitur, a volutpat nibh tempus. Pellentesque ultrices enim et viverra mollis. Duis fringilla fermentum neque, in scelerisque ipsum auctor ac. Vestibulum mattis sagittis scelerisque. Nunc viverra, dui id dignissim hendrerit, eros nibh suscipit erat, nec maximus nunc ante vitae erat. Phasellus eu turpis non nisi pretium venenatis.
+            In the context of blockchain or decentralized systems, zkVMs are often used to enhance privacy and scalability. By leveraging ZKPs, a zkVM can execute transactions or smart contracts off-chain and provide a proof of correctness that can be verified on-chain, reducing the amount of data that needs to be stored and transmitted on the blockchain. This can significantly improve the efficiency and privacy of decentralized applications.
         </p>
-        <p style="text-indent: 30px;">         
-            In iaculis, turpis eget dapibus gravida, ex risus ullamcorper justo, a iaculis diam massa sed nisi. Integer lobortis laoreet porttitor. Nunc ornare facilisis tortor, id volutpat nisi vehicula quis. Vestibulum dignissim nunc eget nibh efficitur, scelerisque suscipit massa suscipit. Vestibulum eget interdum felis, quis hendrerit enim. Nulla a mattis ligula, a consequat quam. Vestibulum suscipit at lectus et luctus. Donec viverra ex rutrum tempus convallis. Nulla tristique, neque et gravida laoreet, libero libero rhoncus massa, in hendrerit ipsum dui non elit. Maecenas scelerisque tortor at arcu posuere tempus. Mauris ac sem id diam congue tristique. Praesent nunc elit, ultrices vitae volutpat cursus, porttitor non diam. Aenean malesuada leo ut eros lobortis dapibus. Praesent nec molestie dolor. Sed a faucibus elit, id consequat ipsum. Donec in lorem egestas, rutrum libero eu, ultrices nibh.
-        </p>
-        <p style="text-indent: 30px;">    
-            Curabitur pellentesque, erat id hendrerit pharetra, neque elit aliquet ipsum, ullamcorper ultrices justo sapien eget nulla. Nulla sit amet quam purus. Maecenas a condimentum massa. Quisque molestie sapien sagittis egestas lobortis. Maecenas id metus sed orci hendrerit porttitor. Vestibulum aliquam nisi congue, condimentum risus vitae, rutrum nisl. Aliquam cursus nisi eu tellus sollicitudin finibus. Integer bibendum id lacus eget sollicitudin. Donec eu justo eu lectus bibendum lobortis ut vel risus.
-        </p>
+        <h2>Aim of this Project</h2>
         <ul>
-            <li>good</li>
-            <li>good</li>
-            <li>good</li>
+            <li><b>Informing developers about which zkVM to pick:</b> Different zkVMs may perform differently in memory consumption, execution time and other metrics. A developer needs to know about the advantages and disadvantages of zkVMs in these metrics to pick the right zkVM to use for their use case. We try to address this need by showcasing our results in a simple and understandable way.</li>
+            <li><b>Allowing zkVM developers to test their product:</b> As it is in any competitive market, it is important to be able to compare your product with the popular products currently in the market, and see how your product performs in different metrics. To meet this demand, our source code are open source, and is coded to be as extensible as possible, so that any zkVM developer can add their own zkVMs and tests to use our benchmarking system.</li>
         </ul>
+        <h2>Benchmarking Methodology</h2>
+        <p style="text-indent: 30px;">    
+            We used Docker containers to isolate the environment to prevent any compatibility issues. The current version of the project is aimed to benchmark zkVMs that can execute Rust codes. The tests are dynamically written inside the zkVM projects during benchmarking to not interfere with the zkVMs process, and try to simulate a real-life use case. The metrics are measured using Rust packages and linux tools, then the results are collected and cleaned.
+        </p>
     </div>
 
     <script>
