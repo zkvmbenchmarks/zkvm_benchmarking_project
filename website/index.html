@@ -149,6 +149,16 @@
         #documentation ul li::before {
             content: none;
         }
+
+        .chainway-icon {
+            position: absolute;
+            top: 20px;
+            right: 80px; /* Position it to the left of GitHub icon */
+        }
+        .chainway-icon img {
+            width: 32px;
+            height: 32px;
+        }
     </style>
 </head>
 <body>
@@ -156,6 +166,11 @@
         <div class="github-icon">
             <a href="https://github.com/zkvmbenchmarks/zkvm_benchmarking_project" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+            </a>
+        </div>
+        <div class="chainway-icon">
+            <a href="https://chainway.xyz/" target="_blank">
+                <img src="images/chainway_logo.jpeg" alt="Chainway">
             </a>
         </div>
         <img class="logo" src="images/stoic_man" alt="Knowledge Bench Logo">
@@ -188,6 +203,13 @@
         </p>
         <p style="text-indent: 30px;">       
             In the context of blockchain or decentralized systems, zkVMs are often used to enhance privacy and scalability. By leveraging ZKPs, a zkVM can execute transactions or smart contracts off-chain and provide a proof of correctness that can be verified on-chain, reducing the amount of data that needs to be stored and transmitted on the blockchain. This can significantly improve the efficiency and privacy of decentralized applications.
+        </p>
+        <h2>What is a Cycle</h2>
+        <p style="text-indent: 30px;">       
+            In the context of zkVMs, a cycle refers to one iteration of execution within the virtual machine's operational framework. It represents a discrete step during which the zkVM processes a set of instructions, evaluates constraints, or performs cryptographic operations. During each cycle, the zkVM executes one or more instructions from the program being run. Each cycle contributes to the construction of a zero-knowledge proof by defining which operations and constraints are included in the proof for the program's execution.
+        </p>
+        <p style="text-indent: 30px;">       
+            The cycle count matters because the number of cycles required to execute a program directly impacts the zkVM's performance and the cost of generating/verifying the proof. zkVMs aim to minimize the number of cycles (and their computational overhead) to handle large-scale computations efficiently.
         </p>
         <h2>Aim of this Project</h2>
         <ul>
