@@ -1,5 +1,5 @@
 # SP1 Dockerfile
-FROM rust:latest
+FROM ubuntu:24.10
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,7 +14,14 @@ RUN apt-get update && apt-get install -y \
     nano \
     gawk \
     bison \
+    valgrind \
     && apt-get clean
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Add Rust to the PATH
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install the SP1 CLI
 RUN curl -L https://sp1.succinct.xyz | bash && \
@@ -29,10 +36,14 @@ WORKDIR /app
 
 # Copy the SP1 benchmark files
 COPY ./sp1_benchmarks ./sp1_benchmarks
+COPY ./tests ./tests
 COPY log_cleaner.sh .
 
 # Ensure scripts are executable
 RUN chmod +x log_cleaner.sh
+
+# include cargo prove in the PATH
+ENV PATH="/root/.sp1/bin:${PATH}"
 
 # Default command to open the shell
 CMD ["/bin/bash"]

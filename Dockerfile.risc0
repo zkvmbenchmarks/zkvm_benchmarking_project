@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     git \
     vim \
     nano \
+    linux-perf \
+    valgrind \
     && apt-get clean
 
 # Install the RISC0 CLI
@@ -29,6 +31,7 @@ WORKDIR /app
 
 # Copy the RISC0 benchmark files
 COPY ./risc0_benchmarks ./risc0_benchmarks
+COPY ./tests ./tests
 COPY log_cleaner.sh .
 
 # Ensure scripts are executable
