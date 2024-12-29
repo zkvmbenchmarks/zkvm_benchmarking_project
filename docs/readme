@@ -1,7 +1,0 @@
-To run the website locally, run
-
-python3 -m http.server
-
-Then go to your browser, and navigate to
-
-http://localhost:8000/index.html

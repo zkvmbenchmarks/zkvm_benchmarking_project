@@ -43,11 +43,11 @@ We have the following default tests that are ready to be run for benchmarking:
 
 The benchmarking process follows the below pipeline
 
-![Benchmark Pipeline](website/images/benchmark_pipeline.png)
+![Benchmark Pipeline](resources/benchmark_pipeline.png)
 
 Codegen dynamically writes the test code into the zkVM project, and then the metrics are measured using external tools and Rust packages. Then the results are cleaned using .sh files, as follows:
 
-![Measurement Logic](website/images/measurement_logic.png)
+![Measurement Logic](resources/measurement_logic.png)
 
 If it already doesn't exist, a results folder is created and the metric measurements are saved in it as explained later.
 
