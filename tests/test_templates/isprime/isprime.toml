@@ -1,0 +1,4 @@
+[guest_dependencies]
+
+[host_dependencies]
+benchmarker = { path = "../../../benchmarker" }
