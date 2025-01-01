@@ -206,7 +206,7 @@ impl CodeGenerator {
         }
 
         if !patches.is_empty() {
-            let cargo_toml_path = self.env.get_host_cargo_toml_path();
+            let cargo_toml_path = self.env.get_workspace_cargo_toml_path();
             let mut cargo_toml_content = fs::read_to_string(&cargo_toml_path).expect("Failed to read Cargo.toml");
             let mut cargo_toml_value: toml::Value = toml::from_str(&cargo_toml_content).expect("Failed to parse Cargo.toml");
 
@@ -222,11 +222,16 @@ impl CodeGenerator {
 
             if let toml::Value::Table(crates_io_table) = crates_io_section {
                 for (crate_name, patch) in patches {
-                    if !crates_io_table.contains_key(&crate_name) {
-                        crates_io_table.insert(crate_name, toml::Value::Table(toml::from_str(&patch).expect("Failed to parse patch")));
+                    let patch_value: toml::Value = toml::from_str(&patch).expect("Failed to parse patch");
+                    if let toml::Value::Table(patch_table) = patch_value {
+                        for (key, value) in patch_table {
+                            crates_io_table.insert(key, value);
+                        }
                     }
                 }
             }
+
+            println!("Patched Cargo.toml: {:#?}", cargo_toml_value);
 
             cargo_toml_content = toml::to_string(&cargo_toml_value).expect("Failed to serialize Cargo.toml");
             fs::write(cargo_toml_path, cargo_toml_content).expect("Failed to write Cargo.toml");

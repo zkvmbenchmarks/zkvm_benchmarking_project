@@ -16,6 +16,7 @@ pub trait CodeEnv {
     fn get_available_patches(&self) -> HashMap<String, String>;
     fn get_guest_output_dir(&self) -> String;
     fn get_host_output_dir(&self) -> String;
+    fn get_workspace_cargo_toml_path(&self) -> String;
 }
 
 pub struct NotImplementedEnv;
@@ -62,6 +63,10 @@ impl CodeEnv for NotImplementedEnv {
     }
 
     fn get_host_output_dir(&self) -> String {
+        unimplemented!("Please choose the appropriate environment");
+    }
+
+    fn get_workspace_cargo_toml_path(&self) -> String {
         unimplemented!("Please choose the appropriate environment");
     }
 }
@@ -116,9 +121,6 @@ impl CodeEnv for Sp1Env {
         patches.insert(
             "sha2".to_string(),
             r#"
-                [patch.crates-io]
-                sha2-v0-9-8 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.9.8-patch-v1" }
-                sha2-v0-10-6 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.10.6-patch-v1" }
                 sha2-v0-10-8 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.10.8-patch-v1" }
                 "#.to_string(),
         );
@@ -132,6 +134,10 @@ impl CodeEnv for Sp1Env {
 
     fn get_host_output_dir(&self) -> String {
         String::from("../sp1_benchmarks/sp1_project/script/src/bin")
+    }
+
+    fn get_workspace_cargo_toml_path(&self) -> String {
+        String::from("../sp1_benchmarks/sp1_project/Cargo.toml")
     }
 }
 
@@ -187,51 +193,35 @@ impl CodeEnv for Risc0Env {
         patches.insert(
             "sha2".to_string(),
             r#"
-                [patch.crates-io]
                 sha2-v0-10-8 = { git = "https://github.com/risc0/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.10.8-risczero.0" }
-                sha2-v0-10-7 = { git = "https://github.com/risc0/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.10.7-risczero.0" }
-                sha2-v0-10-6 = { git = "https://github.com/risc0/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.10.6-risczero.0" }
-                sha2-v0-9-9 = { git = "https://github.com/risc0/RustCrypto-hashes", package = "sha2", tag = "sha2-v0.9.9-risczero.0" }
                 "#.to_string(),
         );
 
         patches.insert(
             "k256".to_string(),
             r#"
-                [patch.crates-io]
                 k256-v0-13-4 = { git = "https://github.com/risc0/RustCrypto-elliptic-curves", package = "k256", tag = "k256/v0.13.4-risczero.1" }
-                k256-v0-13-3 = { git = "https://github.com/risc0/RustCrypto-elliptic-curves", package = "k256", tag = "k256/v0.13.3-risczero.1" }
-                k256-v0-13-2 = { git = "https://github.com/risc0/RustCrypto-elliptic-curves", package = "k256", tag = "k256/v0.13.2-risczero.1" }
-                k256-v0-13-1 = { git = "https://github.com/risc0/RustCrypto-elliptic-curves", package = "k256", tag = "k256/v0.13.1-risczero.1" }
                 "#.to_string(),
         );
 
         patches.insert(
             "curve25519-dalek".to_string(),
             r#"
-                [patch.crates-io]
                 curve25519-dalek-v4-1-2 = { git = "https://github.com/risc0/ed25519-dalek", package = "curve25519-dalek", tag = "curve25519-4.1.2-risczero.0" }
-                curve25519-dalek-v4-1-1 = { git = "https://github.com/risc0/ed25519-dalek", package = "curve25519-dalek", tag = "curve25519-4.1.1-risczero.0" }
-                curve25519-dalek-v4-1-0 = { git = "https://github.com/risc0/ed25519-dalek", package = "curve25519-dalek", tag = "curve25519-4.1.0-risczero.0" }
                 "#.to_string(),
         );
 
         patches.insert(
             "rsa".to_string(),
             r#"
-                [patch.crates-io]
-                rsa-v0-9-6 = { git = "https://github.com/risc0/RustCrypto-RSA", package = "rsa", tag = "v0.9.6-risczero.0" }
+                rsa = { git = "https://github.com/risc0/RustCrypto-RSA", package = "rsa", tag = "v0.9.6-risczero.0" }
                 "#.to_string(),
         );
 
         patches.insert(
             "crypto-bigint".to_string(),
             r#"
-                [patch.crates-io]
                 crypto-bigint-v0-5-5 = { git = "https://github.com/risc0/RustCrypto-crypto-bigint", package = "crypto-bigint", tag = "v0.5.5-risczero.0" }
-                crypto-bigint-v0-5-4 = { git = "https://github.com/risc0/RustCrypto-crypto-bigint", package = "crypto-bigint", tag = "v0.5.4-risczero.0" }
-                crypto-bigint-v0-5-3 = { git = "https://github.com/risc0/RustCrypto-crypto-bigint", package = "crypto-bigint", tag = "v0.5.3-risczero.0" }
-                crypto-bigint-v0-5-2 = { git = "https://github.com/risc0/RustCrypto-crypto-bigint", package = "crypto-bigint", tag = "v0.5.2-risczero.0" }
                 "#.to_string(),
         );
 
@@ -246,4 +236,7 @@ impl CodeEnv for Risc0Env {
         String::from("../risc0_benchmarks/test_project/host/src")
     }
 
+    fn get_workspace_cargo_toml_path(&self) -> String {
+        String::from("../risc0_benchmarks/test_project/Cargo.toml")
+    }
 }
