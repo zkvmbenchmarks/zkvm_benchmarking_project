@@ -1,7 +1,16 @@
 use crate::env_adapters::NotImplementedEnv as env;
 use rsa::Pkcs1v15Sign;
 use rsa::{pkcs8::DecodePublicKey, RsaPublicKey};
+
+#[precompile]
 use sha2::{Digest, Sha256};
+
+#[host]
+use rsa::{
+    pkcs8::{DecodePrivateKey, DecodePublicKey},
+    RsaPrivateKey, RsaPublicKey,
+};
+
 
 //implementation from https://github.com/succinctlabs/sp1/blob/dev/examples/rsa/program/src/main.rs
 fn main() {
@@ -31,7 +40,6 @@ fn main() {
     env::commit(&verified);
 }
 
-
 #[host]
 fn input_message() -> Vec<u8> {
     b"Hello, world!".to_vec()
@@ -57,6 +65,6 @@ fn input_signature() -> Vec<u8> {
 }
 
 #[host]
-fn public_key() -> Vec<u8> {
-    RsaPublicKey::from_pkcs8_der(RSA_2048_PRIV_DER).unwrap() // TODO: we need a system to provide supplementery files
+fn public_key() ->  &'static [u8] {
+    include_bytes!("rsa2048-pub.der")
 }
