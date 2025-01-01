@@ -126,12 +126,12 @@ impl CodeGenerator {
         self.generate_host_code(&template_path, &host_output_path);
         prepend_host_imports_to_syn_tree(&template_path, &host_output_path);
         append_host_functions_to_syn_tree(&template_path, &host_output_path);
-        self.handle_dependencies(&toml_path);
         self.handle_precompiles(&template_path);
+        self.handle_dependencies(&toml_path);
 
         let code = fs::read_to_string(&template_path).expect("Failed to read input file");
         let mut syntax_tree: File = parse_file(&code).expect("Failed to parse Rust code");
-        
+
         strip_attribute(&mut syntax_tree, "precompile");
         let transformed = self.transform(syntax_tree);
 
@@ -142,8 +142,6 @@ impl CodeGenerator {
         for path in additional_file_paths {
             self.copy_additional_files(&path);
         }
-
-
     }
 
     fn copy_additional_files(&self, input_path: &str) {
@@ -187,11 +185,12 @@ impl CodeGenerator {
         let syntax_tree: File = parse_file(&code).expect("Failed to parse Rust code");
 
         // Process items with #[precompile] attribute
-        let precompile_items =
-            process_items_with_attribute(syntax_tree.items, "precompile", true, false);
-        for item in &precompile_items {
-            println!("Precompile item: {}", item.to_token_stream());
-        }
+        let precompile_items = process_items_with_attribute(
+            syntax_tree.items,
+            "precompile",
+            true,  // strip_attribute
+            false, // strip_item
+        );
 
         let mut patches = HashMap::new();
 
@@ -208,16 +207,33 @@ impl CodeGenerator {
 
         if !patches.is_empty() {
             let cargo_toml_path = self.env.get_host_cargo_toml_path();
-            let mut cargo_toml =
-                fs::read_to_string(&cargo_toml_path).expect("Failed to read Cargo.toml");
+            let mut cargo_toml_content = fs::read_to_string(&cargo_toml_path).expect("Failed to read Cargo.toml");
+            let mut cargo_toml_value: toml::Value = toml::from_str(&cargo_toml_content).expect("Failed to parse Cargo.toml");
 
-            for patch in patches.values() {
-                cargo_toml.push_str(patch);
+            // Ensure the patch section exists
+            let patch_section = cargo_toml_value.as_table_mut().unwrap().entry("patch").or_insert_with(|| {
+                toml::Value::Table(toml::map::Map::new())
+            });
+
+            // Ensure the crates-io section exists within the patch section
+            let crates_io_section = patch_section.as_table_mut().unwrap().entry("crates-io").or_insert_with(|| {
+                toml::Value::Table(toml::map::Map::new())
+            });
+
+            if let toml::Value::Table(crates_io_table) = crates_io_section {
+                for (crate_name, patch) in patches {
+                    if !crates_io_table.contains_key(&crate_name) {
+                        crates_io_table.insert(crate_name, toml::Value::Table(toml::from_str(&patch).expect("Failed to parse patch")));
+                    }
+                }
             }
 
-            fs::write(cargo_toml_path, cargo_toml).expect("Failed to write Cargo.toml");
+            cargo_toml_content = toml::to_string(&cargo_toml_value).expect("Failed to serialize Cargo.toml");
+            fs::write(cargo_toml_path, cargo_toml_content).expect("Failed to write Cargo.toml");
         }
     }
+
+
     fn update_cargo_toml(&self, cargo_toml_path: &str, dependencies: &toml::Value) {
         let mut cargo_toml_content =
             fs::read_to_string(cargo_toml_path).expect("Failed to read Cargo.toml");
@@ -578,24 +594,22 @@ fn extract_function_from_comment(line: &str) -> Option<(String, String)> {
 }
 
 // strip the given attribute from the syntax tree
-fn strip_attribute(
-    syntax_tree: &mut File,
-    attribute_name: &str,
-) {
+fn strip_attribute(syntax_tree: &mut File, attribute_name: &str) {
     for item in &mut syntax_tree.items {
         match item {
             Item::Fn(func) => {
-                func.attrs.retain(|attr| !attr.path().is_ident(attribute_name));
+                func.attrs
+                    .retain(|attr| !attr.path().is_ident(attribute_name));
             }
             Item::Use(use_item) => {
-                use_item.attrs.retain(|attr| !attr.path().is_ident(attribute_name));
+                use_item
+                    .attrs
+                    .retain(|attr| !attr.path().is_ident(attribute_name));
             }
             _ => {}
         }
     }
 }
-
-
 
 fn process_items_with_attribute(
     items: Vec<Item>,

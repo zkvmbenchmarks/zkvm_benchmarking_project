@@ -7,9 +7,11 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
     let template_name = &args[1];
     let template_path = format!("./test_templates/{}", template_name);
-
-    let reset_flag: bool = &args[2] == "true";
-
+    // check if reset flag is set
+    let mut reset_flag: bool = false;
+    if args.len() > 2 {
+        reset_flag = &args[2] == "true";
+    } 
 
     let generator = CodeGenerator::new(Box::new(env_adapters::Risc0Env));
     generator.generate_code(
@@ -29,5 +31,4 @@ fn main() {
         generator.reset();
         sp1_generator.reset();
     }
-
 }
