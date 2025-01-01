@@ -4,3 +4,6 @@
 [submodule "sp1_benchmarks"]
 	path = sp1_benchmarks
 	url = git@github.com:zkvmbenchmarks/sp1_benchmarks.git
+[submodule "website"]
+	path = website
+	url = https://github.com/zkvmbenchmarks/website.git

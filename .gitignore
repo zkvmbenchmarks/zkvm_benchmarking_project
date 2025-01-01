@@ -1,2 +1,4 @@
-results/
 target/
+results/
+#ignore any files with .lock extension
+*.lock

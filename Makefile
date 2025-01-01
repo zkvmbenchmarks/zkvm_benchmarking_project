@@ -13,8 +13,8 @@ cleanup:
 	@rm -f $(RESULTS_DIR)/risc0_memory_leak.log
 	@rm -f $(RESULTS_DIR)/risc0_rust_bench.log
 	@rm -f $(RESULTS_DIR)/sp1_cpu_usage.log
-#	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
-#	@rm -f $(RESULTS_DIR)/sp1_rust_bench.log
+	@rm -f $(RESULTS_DIR)/sp1_memory_leak.log
+	@rm -f $(RESULTS_DIR)/sp1_rust_bench.log
 	@-pkill -f "top -b -d 1" || true
 
 

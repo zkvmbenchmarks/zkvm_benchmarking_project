@@ -78,14 +78,27 @@ avg_cpu_usage=$(grep "%Cpu(s)" "$input_file_risc0_cpu" |
 proving_time_clean=$(echo "$proving_time" | sed 's/s$//' | awk '{print int($1)}')
 total_power_consumption=$((proving_time_clean * avg_cpu_usage))
 
+peak_ram=$(grep "^MiB Mem" "$input_file_risc0_cpu" | awk 'BEGIN {max=0; max_str=""} {
+  used_str=$8;
+  sub(",?$","",used_str);
+  used_num=used_str;
+  gsub(",",".",used_num);
+  if (used_num+0 > max+0) {
+    max=used_num;
+    max_str=used_str
+  }
+} END {print max_str}')
+
+
 # Write to output file
 {
   echo "Total cycles: $total_cycles"
   echo "Proving time: $proving_time"
-  echo "Peak memory consumption during proving: $peak_memory_proving"
+#  echo "Peak memory consumption during proving: $peak_memory_proving"
   echo "Proof size: $proof_size"
   echo "Verification time: $verification_time"
-  echo "Peak memory consumption during verification: $peak_memory_verification"
+#  echo "Peak memory consumption during verification: $peak_memory_verification"
   echo "Total memory leak: $total_memory_leak KB"
   echo "Total power consumption: $total_power_consumption units"
+  echo "Peak RAM usage: $peak_ram MiB"
 } >"$output_file"
