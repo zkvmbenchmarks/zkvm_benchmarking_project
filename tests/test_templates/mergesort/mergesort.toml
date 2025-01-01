@@ -2,3 +2,4 @@
 
 [host_dependencies]
 benchmarker = { path = "../../../benchmarker" }
+rand = "0.8"
