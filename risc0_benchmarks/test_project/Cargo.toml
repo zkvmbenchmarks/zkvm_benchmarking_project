@@ -1,0 +1,20 @@
+[patch.crates-io.rsa]
+git = "https://github.com/risc0/RustCrypto-RSA"
+package = "rsa"
+tag = "v0.9.6-risczero.0"
+
+[patch.crates-io.sha2-v0-10-8]
+git = "https://github.com/risc0/RustCrypto-hashes"
+package = "sha2"
+tag = "sha2-v0.10.8-risczero.0"
+
+[profile.dev]
+opt-level = 3
+
+[profile.release]
+debug = 1
+lto = true
+
+[workspace]
+members = ["host", "methods"]
+resolver = "2"

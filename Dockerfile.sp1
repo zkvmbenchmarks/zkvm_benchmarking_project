@@ -1,0 +1,49 @@
+# SP1 Dockerfile
+FROM ubuntu:24.10
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    make \
+    procps \
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    gawk \
+    bison \
+    valgrind \
+    && apt-get clean
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Add Rust to the PATH
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install the SP1 CLI
+RUN curl -L https://sp1.succinct.xyz | bash && \
+    . /root/.bashrc && sp1up
+
+# Add SP1 and Succinct Rust toolchain to the PATH
+ENV PATH="/root/.succinct/bin:${PATH}"
+ENV RUSTUP_TOOLCHAIN="succinct"
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the SP1 benchmark files
+COPY ./sp1_benchmarks ./sp1_benchmarks
+COPY ./tests ./tests
+COPY log_cleaner.sh .
+
+# Ensure scripts are executable
+RUN chmod +x log_cleaner.sh
+
+# include cargo prove in the PATH
+ENV PATH="/root/.sp1/bin:${PATH}"
+
+# Default command to open the shell
+CMD ["/bin/bash"]

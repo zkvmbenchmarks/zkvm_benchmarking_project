@@ -1,0 +1,1 @@
+#! [no_main] sp1_zkvm :: entrypoint ! (main) ; use nalgebra :: Matrix2 ; fn main () { let iterations : u32 = sp1_zkvm :: io :: read () ; ; let answer = fibonacci (iterations) ; sp1_zkvm :: io :: commit_slice (& answer) ; } fn fibonacci (n : u32) -> u64 { Matrix2 :: new (1 , 1 , 1 , 0) . pow (n - 1) [(0 , 0)] }
