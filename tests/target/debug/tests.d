@@ -1,0 +1,1 @@
+/app/tests/target/debug/tests: /app/benchmarker/src/benchmarker.rs /app/tests/host_templates/risc_zero.rs /app/tests/host_templates/sp1.rs /app/tests/src/codegen.rs /app/tests/src/env_adapters.rs /app/tests/src/main.rs
