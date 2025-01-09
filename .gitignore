@@ -4,7 +4,7 @@ results/
 *.lock
 
 # ignore sp1 target
-#sp1_benchmarks/sp1_project/target
+sp1_benchmarks/sp1_project/target
 
 #ignore risc0 target
 risc0_benchmarks/test_project/target
