@@ -60,8 +60,9 @@ sp1: cleanup
         sleep 1; \
     done &
 	@cd $(SP1_DIR)/sp1_project && RUST_LOG=info target/release/fibonacci --prove > $(RESULTS_DIR)/sp1_rust_bench.log
-	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/sp1_rust_bench.log -m $(RESULTS_DIR)/sp1_memory_leak.log -c \
-		$(RESULTS_DIR)/sp1_cpu_usage.log -o $(RESULTS_DIR)/sp1_$(TEST_NAME)_benchmark_results.txt
+	@bash $(ROOT_DIR)/log_cleaner.sh -r $(RESULTS_DIR)/sp1_rust_bench.log \
+		-c $(RESULTS_DIR)/sp1_cpu_usage.log \
+		-o $(RESULTS_DIR)/sp1_$(TEST_NAME)_benchmark_results.txt
 	@$(MAKE) cleanup
 	@echo "SP1 benchmarks completed! Results saved to $(RESULTS_DIR)/sp1_results.txt"
 
