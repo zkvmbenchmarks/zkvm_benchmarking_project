@@ -13,3 +13,4 @@ risc0_benchmarks/test_project/target
 benchmarker/target
 
 # ignore tests target
+tests/target
