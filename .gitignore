@@ -1,4 +1,4 @@
-target/
+#target/
 results/
 #ignore any files with .lock extension
 *.lock
@@ -8,3 +8,9 @@ sp1_benchmarks/sp1_project/target
 
 #ignore risc0 target
 risc0_benchmarks/test_project/target
+
+# ignore benchmarker target
+benchmarker/target
+
+# ignore tests target
+tests/target

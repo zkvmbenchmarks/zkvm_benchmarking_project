@@ -22,10 +22,9 @@ fn main() {
         .prove(env, TEST_PROJECT_ELF)
         .unwrap();
     let benchmark_results = benchmarker.end_benchmark();
-        //log proving benchmark results
-    if let Some((duration, peak_memory)) = benchmark_results {
+    //log proving benchmark results
+    if let Some(duration) = benchmark_results {
         println!("Proving time: {:?}", duration);
-        println!("Peak memory consumption during proving: {} KB", peak_memory);
     }
 
     let receipt = prove_info.receipt;
@@ -45,8 +44,7 @@ fn main() {
     let verifying_benchmark_results = verifying_benchmarker.end_benchmark();
 
     //logs verification benchmark results
-    if let Some((duration, peak_memory)) = verifying_benchmark_results {
+    if let Some(duration) = verifying_benchmark_results {
         println!("Verification time: {:?}", duration);
-        println!("Peak memory consumption during verification: {} KB", peak_memory);
     } 
 }
